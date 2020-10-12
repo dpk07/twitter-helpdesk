@@ -24,12 +24,13 @@ class TwitterLogin extends Component {
       this.setState({ isAuthenticated: true });
       localStorage.setItem("oauth_token", res.oauth_token);
       localStorage.setItem("oauth_token_secret", res.oauth_token_secret);
+      localStorage.setItem("screen_name", res.screen_name);
       getMentions().then((data) => {
         data.map((newTweet) => this.tweetsMap.set(newTweet.id, newTweet));
         data.map(this.handleTweet);
       });
       if (this.socket == null) {
-        this.socket = openSocket("http://localhost:5000", {
+        this.socket = openSocket("/", {
           query: {
             screenName: res.screen_name,
           },
@@ -85,10 +86,10 @@ class TwitterLogin extends Component {
     ) : (
       <div>
         <TwitterLoginAuth
-          loginUrl="http://localhost:5000/auth/twitter"
+          loginUrl="/auth/twitter"
           onFailure={this.onFailed}
           onSuccess={this.onSuccess}
-          requestTokenUrl="http://localhost:5000/auth/twitter/reverse"
+          requestTokenUrl="/auth/twitter/reverse"
           style={{ marginTop: "3rem" }}
         />
       </div>

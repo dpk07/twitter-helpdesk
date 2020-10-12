@@ -3,9 +3,11 @@ import axios from "axios";
 export const replyToTweet = (tweet) => {
   const oauth_token = localStorage.getItem("oauth_token");
   const oauth_token_secret = localStorage.getItem("oauth_token_secret");
+  const screen_name = localStorage.getItem("screen_name");
   const tweetData = {
     oauth_token,
     oauth_token_secret,
+    screen_name,
     tweet,
   };
   axios.post("/auth/twitter/reply", tweetData).then((data) => {

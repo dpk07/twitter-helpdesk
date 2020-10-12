@@ -36,6 +36,7 @@ export const logoutUser = () => {
   localStorage.removeItem("jwtToken");
   localStorage.removeItem("oauth_token");
   localStorage.removeItem("oauth_token_secret");
+  localStorage.removeItem("screen_name");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false

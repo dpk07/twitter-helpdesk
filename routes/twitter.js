@@ -61,6 +61,7 @@ router.route("/").post((req, res) => {
 router.route("/reply").post((req, res) => {
   const oauth_token = req.body["oauth_token"];
   const oauth_token_secret = req.body["oauth_token_secret"];
+  const screen_name = req.body["screen_name"];
   const tweet = req.body["tweet"];
   const T = new Twit({
     consumer_key: process.env.consumerKey || keys.consumerKey,
@@ -72,7 +73,7 @@ router.route("/reply").post((req, res) => {
   });
   T.post("statuses/update", tweet, function (err, data, response) {
     console.log(data);
-    res.io.to("Deepak37833377").emit("tweet", data);
+    res.io.to(screen_name).emit("tweet", data);
     res.sendStatus(200);
   });
 });
