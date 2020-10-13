@@ -11,7 +11,7 @@ router.route("/reverse").post(function (req, res) {
       oauth: {
         oauth_callback: "http%3A%2F%2Flocalhost%3A5000%2Ftwitter-callback",
         consumer_key: process.env.consumerKey || keys.consumerKey,
-        consumer_secret: process.env.consumerKey || keys.consumerSecret,
+        consumer_secret: process.env.consumerSecret || keys.consumerSecret,
       },
     },
     function (err, r, body) {
@@ -31,7 +31,7 @@ router.route("/").post((req, res) => {
       url: `https://api.twitter.com/oauth/access_token?oauth_verifier`,
       oauth: {
         consumer_key: process.env.consumerKey || keys.consumerKey,
-        consumer_secret: process.env.consumerKey || keys.consumerSecret,
+        consumer_secret: process.env.consumerSecret || keys.consumerSecret,
         token: req.query.oauth_token,
       },
       form: { oauth_verifier: req.query.oauth_verifier },
@@ -66,7 +66,7 @@ router.route("/reply").post((req, res) => {
   const tweet = req.body["tweet"];
   const T = new Twit({
     consumer_key: process.env.consumerKey || keys.consumerKey,
-    consumer_secret: process.env.consumerKey || keys.consumerSecret,
+    consumer_secret: process.env.consumerSecret || keys.consumerSecret,
     access_token: oauth_token,
     access_token_secret: oauth_token_secret,
     timeout_ms: 60 * 1000,
@@ -87,8 +87,8 @@ router.route("/getRecentMentions").post((req, res) => {
   const oauth_token = req.body["oauth_token"];
   const oauth_token_secret = req.body["oauth_token_secret"];
   const T = new Twit({
-    consumer_key: keys.consumerKey,
-    consumer_secret: keys.consumerSecret,
+    consumer_key: process.env.consumerKey || keys.consumerKey,
+    consumer_secret: process.env.consumerSecret || keys.consumerSecret,
     access_token: oauth_token,
     access_token_secret: oauth_token_secret,
     timeout_ms: 60 * 1000,
@@ -108,8 +108,8 @@ module.exports = router;
 
 function setupStream(parsedBody, screenName, io) {
   const T = new Twit({
-    consumer_key: keys.consumerKey,
-    consumer_secret: keys.consumerSecret,
+    consumer_key: process.env.consumerKey || keys.consumerKey,
+    consumer_secret: process.env.consumerSecret || keys.consumerSecret,
     access_token: parsedBody.oauth_token,
     access_token_secret: parsedBody.oauth_token_secret,
     timeout_ms: 60 * 1000,
