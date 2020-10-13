@@ -38,6 +38,7 @@ router.route("/").post((req, res) => {
     },
     function (err, r, body) {
       if (err) {
+        console.log(err);
         return res.send(500, { message: err.message });
       }
 
@@ -72,6 +73,10 @@ router.route("/reply").post((req, res) => {
     strictSSL: true,
   });
   T.post("statuses/update", tweet, function (err, data, response) {
+    if (err) {
+      console.log(err);
+      return res.send(500, { message: err.message });
+    }
     console.log(data);
     res.io.to(screen_name).emit("tweet", data);
     res.sendStatus(200);
@@ -90,6 +95,10 @@ router.route("/getRecentMentions").post((req, res) => {
     strictSSL: true,
   });
   T.get("statuses/mentions_timeline", function (err, data, response) {
+    if (err) {
+      console.log(err);
+      return res.send(500, { message: err.message });
+    }
     console.log(data);
     res.json(data);
   });
